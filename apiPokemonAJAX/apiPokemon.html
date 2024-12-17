@@ -5,19 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokeApi</title>
-    <script src="Funciones.js"></script>
-    
+    <script src="Funciones.js" defer></script>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <button id="enviar">Traer todos los pokemons</button>
-        
-        <input type="text" id="pokemonBusqueda" placeholder="Pikachu">
-    </div>
+    <h1>Lista de Pokémon</h1>
+    <table id="tablaPokemons">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los datos se cargarán aquí dinámicamente -->
+        </tbody>
+    </table>
 
-    <div id="cargando"></div>
-    
+    <div id="detallesPokemon" class="hidden">
+        <img id="pokemonImagen" src="" alt="Imagen del Pokémon">
+        <div>
+            <h2 id="pokemonNombre"></h2>
+            <h3>Habilidades:</h3>
+            <ul id="pokemonHabilidades"></ul>
+        </div>
+    </div>
 </body>
 
 </html>

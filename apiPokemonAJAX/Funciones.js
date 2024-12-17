@@ -1,61 +1,74 @@
-function pedirDatos() {
-    var miLlamada = new XMLHttpRequest();
+function cargarPokemons() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://pokeapi.co/api/v2/pokemon?limit=150");
 
-    miLlamada.open("GET", "https://pokeapi.co/api/v2/pokemon");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const { results: pokemons } = JSON.parse(xhr.responseText);
 
-    //Definicion estados
-    miLlamada.onreadystatechange = function () {
-        if (miLlamada.readyState < 4) {
-            //aquí se puede poner una imagen de un reloj o un texto “Cargando”
-            document.getElementById("cargando").innerHTML = "Cargando";
-        }
-        else {
-            if (miLlamada.readyState == 4 && miLlamada.status == 200) {
-                var arrayPokemons = JSON.parse(miLlamada.responseText);
+            const tablaBody = document.querySelector("#tablaPokemons tbody");
+            tablaBody.innerHTML = ""; // Limpiar contenido previo
 
-                document.getElementById("cargando").innerHTML = "";
-                arrayPokemons.results.forEach(p => {
-                    document.getElementById("cargando").innerHTML += p.name + "<br>";
-                })
-            }
+            pokemons.forEach((pokemon) => {
+                const fila = document.createElement("tr");
+
+                // Crear celda para el nombre
+                const columnaNombre = document.createElement("td");
+                columnaNombre.textContent = pokemon.name;
+                fila.appendChild(columnaNombre);
+
+                // Crear celda para el botón
+                const columnaBoton = document.createElement("td");
+                const boton = document.createElement("button");
+                boton.textContent = "Ver Detalles";
+                boton.addEventListener("click", () => pedirDatosPokemon(pokemon.url));
+                columnaBoton.appendChild(boton);
+                fila.appendChild(columnaBoton);
+
+                // Agregar fila a la tabla
+                tablaBody.appendChild(fila);
+            });
         }
     };
 
-    miLlamada.send();
-
+    xhr.send();
 }
 
 function pedirDatosPokemon(url) {
-    var miLlamada = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
 
-    miLlamada.open("GET", url);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const pokemon = JSON.parse(xhr.responseText);
 
-    //Definicion estados
-    miLlamada.onreadystatechange = function () {
-        if (miLlamada.readyState < 4) {
-            //aquí se puede poner una imagen de un reloj o un texto “Cargando”
-            document.getElementById("cargando").innerHTML = "Cargando";
-        }
-        else {
-            if (miLlamada.readyState == 4 && miLlamada.status == 200) {
-                var arrayPokemons = JSON.parse(miLlamada.responseText);
+            // Mostrar detalles del Pokémon
+            const detallesPokemon = document.getElementById("detallesPokemon");
+            detallesPokemon.classList.remove("hidden");
 
-                document.getElementById("cargando").innerHTML = arrayPokemons.name;
-                
-            }
+            const imagen = document.getElementById("pokemonImagen");
+            imagen.src = pokemon.sprites.front_default || "";
+            imagen.alt = `Imagen de ${pokemon.name}`;
+
+            const nombre = document.getElementById("pokemonNombre");
+            nombre.textContent = pokemon.name;
+
+            const habilidadesLista = document.getElementById("pokemonHabilidades");
+            habilidadesLista.innerHTML = ""; // Limpiar habilidades previas
+
+            pokemon.abilities.forEach((habilidad) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = habilidad.ability.name;
+                habilidadesLista.appendChild(listItem);
+            });
+
+            const target = document.getElementById("detallesPokemon");
+            const targetPosition = target.getBoundingClientRect().bottom + window.pageYOffset;
+            target.scrollIntoView({bottom: targetPosition - 100, behavior: "smooth" });
         }
     };
 
-    miLlamada.send();
-
+    xhr.send();
 }
 
-window.onload = function () {
-    document.getElementById("enviar").addEventListener("click", function () {
-        if (document.getElementById("cargando").innerHTML == "") {
-            pedirDatos();
-        } else {
-            document.getElementById("cargando").innerHTML = "";
-        }
-    });
-}
+window.onload = cargarPokemons;

@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+#tablaPokemons {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+#tablaPokemons thead {
+    background-color: #ffcc00;
+}
+
+#tablaPokemons th,
+#tablaPokemons td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tablaPokemons tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#tablaPokemons tr:hover {
+    background-color: #ddd;
+}
+
+#tablaPokemons button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #ffa500;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#tablaPokemons button:hover {
+    background-color: #ff7700;
+}
+
+#detallesPokemon {
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#detallesPokemon.hidden {
+    display: none;
+}
+
+#detallesPokemon img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+}
+
+#detallesPokemon h2 {
+    margin: 0;
+    color: #333;
+}
+
+#detallesPokemon h3 {
+    margin-top: 10px;
+    color: #555;
+}
+
+#detallesPokemon ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#detallesPokemon ul li {
+    margin-bottom: 5px;
+    background-color: #ffcc00;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+}
